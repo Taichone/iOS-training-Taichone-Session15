@@ -40,6 +40,7 @@ jobs:
           if [ -d "${{ matrix.config.scheme }}" ]; then
             rm -rf "${{ matrix.config.scheme }}"
           fi
+          mkdir ${{ matrix.config.dir }}
           cd ${{ matrix.config.dir }}
           xcodebuild -scheme "${{ matrix.config.scheme }}" -resultBundlePath ${{ matrix.config.scheme }} test -destination "platform=$platform,name=$device"
       - name: Report
