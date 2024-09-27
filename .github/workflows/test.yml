@@ -36,15 +36,11 @@ jobs:
           platform: ${{ 'iOS Simulator' }}
         run: |
           # xcrun xctrace returns via stderr, not the expected stdout (see https://developer.apple.com/forums/thread/663959)
-          device=`xcrun xctrace list devices 2>&1 | grep -oE 'iPhone.*?[^\(]+' | head -1 | awk '{$1=$1;print}' | sed -e "s/ Simulator$//"`
-          if [ -d "${{ matrix.config.scheme }}" ]; then
-            rm -rf "${{ matrix.config.scheme }}"
-          fi
-          mkdir ${{ matrix.config.dir }}
+          device=`xcrun xctrace list devices 2>&1 | grep -oE 'iPhone.*?[^\(]+' | head -1 | awk '{$1=$1;print}' | sed -e "s/ Simulator$//"`          
           cd ${{ matrix.config.dir }}
-          xcodebuild -scheme "${{ matrix.config.scheme }}" -resultBundlePath ${{ matrix.config.scheme }} test -destination "platform=$platform,name=$device"
+          xcodebuild -scheme "${{ matrix.config.scheme }}" -resultBundlePath hoge test -destination "platform=$platform,name=$device"
       - name: Report
         uses: kishikawakatsumi/xcresulttool@v1
         with:
-          path: ${{ matrix.config.scheme }}.xcresult
+          path: hoge.xcresult
         if: success() || failure()
