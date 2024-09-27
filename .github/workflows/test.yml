@@ -2,7 +2,7 @@ name: Test
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main", "fix/ci"]
   pull_request_target:
     branches: ["main"]
 
@@ -37,6 +37,9 @@ jobs:
         run: |
           # xcrun xctrace returns via stderr, not the expected stdout (see https://developer.apple.com/forums/thread/663959)
           device=`xcrun xctrace list devices 2>&1 | grep -oE 'iPhone.*?[^\(]+' | head -1 | awk '{$1=$1;print}' | sed -e "s/ Simulator$//"`
+          if [ -d "${{ matrix.config.scheme }}" ]; then
+            rm -rf "${{ matrix.config.scheme }}"
+          fi
           cd ${{ matrix.config.dir }}
           xcodebuild -scheme "${{ matrix.config.scheme }}" -resultBundlePath ${{ matrix.config.scheme }} test -destination "platform=$platform,name=$device"
       - name: Report
