@@ -58,9 +58,9 @@ class WeatherViewController: UIViewController {
     func handleWeather(result: Result<Response, WeatherError>) {
         switch result {
         case .success(let response):
-            weatherImageView.set(weather: response.weatherCondition)
-            minTempLabel.text = String(response.minTemperature)
-            maxTempLabel.text = String(response.maxTemperature)
+            weatherImageView.set(weather: response.weather)
+            minTempLabel.text = String(response.minTemp)
+            maxTempLabel.text = String(response.maxTemp)
             
         case .failure(let error):
             let message: String
