@@ -9,8 +9,15 @@
 import Foundation
 
 struct Response: Decodable {
-    let weather: Weather
-    let maxTemp: Int
-    let minTemp: Int
+    let weatherCondition: Weather
+    let maxTemperature: Int
+    let minTemperature: Int
     let date: Date
+    
+    enum CodingKeys: String, CodingKey {
+        case weatherCondition = "weather"
+        case maxTemperature = "maxTemp"
+        case minTemperature = "minTemp"
+        case date
+    }
 }
